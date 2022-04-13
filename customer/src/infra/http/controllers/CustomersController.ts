@@ -1,5 +1,6 @@
 import { classToClass } from 'class-transformer';
 import { Request, Response } from 'express';
+import CreateAccountServiceProducer from 'services/CreateAccountServiceProducer';
 import { container } from 'tsyringe';
 import CreateCustomerService from '../../../services/CreateCustomerService';
 
@@ -15,6 +16,8 @@ export default class CustomersController {
       email,
       password
     });
+
+    await CreateAccountServiceProducer.execute(customer.cpf);
 
     return response.status(201).json(classToClass(customer));
   }

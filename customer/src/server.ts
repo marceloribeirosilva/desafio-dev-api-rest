@@ -7,6 +7,7 @@ import './container';
 import AppError from './errors/AppError';
 import './infra/typeorm';
 import routes from './routes';
+import ExampleConsumer from './services/teste';
 
 const app = express();
 
@@ -29,3 +30,5 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
 app.listen(3333, () => {
   console.log('Server started');
 });
+
+ExampleConsumer();
