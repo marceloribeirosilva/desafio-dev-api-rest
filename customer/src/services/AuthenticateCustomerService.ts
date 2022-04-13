@@ -42,7 +42,7 @@ class AuthenticateCustomerService {
 
     const { secret, expiresIn } = authConfig.jwt;
 
-    const token = sign({}, secret, {
+    const token = sign({ cpf: customer.cpf }, secret, {
       expiresIn
     });
 
