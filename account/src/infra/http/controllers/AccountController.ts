@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import BlockAccountService from 'services/BlockAccountService';
 import DisableAccountService from 'services/DisableAccountService';
 import GetAccountService from 'services/GetAccountService';
 import { container } from 'tsyringe';
@@ -34,6 +35,19 @@ export default class AccountController {
     const disableAccount = container.resolve(DisableAccountService);
 
     disableAccount.execute(cpf);
+
+    return response.status(204).json({});
+  }
+
+  public async blockAccount(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { cpf } = request.body;
+
+    const blockAccount = container.resolve(BlockAccountService);
+
+    blockAccount.execute(cpf);
 
     return response.status(204).json({});
   }

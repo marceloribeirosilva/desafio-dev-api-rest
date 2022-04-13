@@ -26,6 +26,9 @@ class Account {
   @Column()
   active: boolean;
 
+  @Column()
+  block: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 
