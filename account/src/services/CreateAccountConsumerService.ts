@@ -1,6 +1,7 @@
+import AccountController from 'infra/http/controllers/AccountController';
 import { Kafka } from 'kafkajs';
 
-async function ExampleConsumer(): Promise<void> {
+async function CreateAccountConsumerService(): Promise<void> {
   const clientId = 'dock';
 
   const brokers = ['127.0.0.1:32895'];
@@ -15,9 +16,12 @@ async function ExampleConsumer(): Promise<void> {
   await consumer.subscribe({ topic });
   await consumer.run({
     eachMessage: async ({ message }) => {
-      console.log('TESTESTESTESTESTESTSE =====>', message.value?.toString());
+      if (message.value) {
+        const controller = new AccountController();
+        controller.createKafka(message.value.toString());
+      }
     }
   });
 }
 
-export default ExampleConsumer;
+export default CreateAccountConsumerService;

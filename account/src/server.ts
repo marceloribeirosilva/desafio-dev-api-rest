@@ -1,12 +1,13 @@
+import 'reflect-metadata';
+import './infra/typeorm';
+import './container';
+import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import 'dotenv/config';
-import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
-import 'reflect-metadata';
-import './container';
 import AppError from './errors/AppError';
-import './infra/typeorm';
 import routes from './routes';
+import CreateAccountConsumerService from './services/CreateAccountConsumerService';
 
 const app = express();
 
@@ -26,6 +27,8 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
     .json({ status: 'error', message: 'Internal server error' });
 });
 
-app.listen(3333, () => {
+app.listen(3334, () => {
   console.log('Server started');
 });
+
+CreateAccountConsumerService();
