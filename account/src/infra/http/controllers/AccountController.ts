@@ -4,7 +4,7 @@ import CreateAccountService from '../../../services/CreateAccountService';
 
 export default class AccountController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const { cpf } = request.body;
+    const { cpf } = request;
 
     const createAccount = container.resolve(CreateAccountService);
 
