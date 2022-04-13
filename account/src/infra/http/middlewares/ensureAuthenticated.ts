@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { verify } from 'jsonwebtoken';
+import { verify, decode } from 'jsonwebtoken';
 import authConfig from '../../../config/auth';
 import AppError from '../../../errors/AppError';
 
@@ -18,6 +18,12 @@ export default function ensureAuthenticated(
 
   try {
     verify(token, authConfig.jwt.secret);
+
+    const decoded = decode(token, { json: true });
+
+    if (decoded) {
+      if (decoded.cpf) request.cpf = decoded.cpf;
+    }
 
     return next();
   } catch {
