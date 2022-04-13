@@ -23,6 +23,9 @@ class Account {
   @Column()
   balance: number;
 
+  @Column()
+  active: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 

@@ -31,6 +31,10 @@ export default class CreateAccounts1626546664140 implements MigrationInterface {
             type: 'decimal'
           },
           {
+            name: 'active',
+            type: 'boolean'
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()'

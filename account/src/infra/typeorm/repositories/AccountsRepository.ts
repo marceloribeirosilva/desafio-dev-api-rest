@@ -15,7 +15,8 @@ class AccountsRepository implements IAccountRepository {
       cpf,
       account: uuid(),
       agency: '0100',
-      balance: 0
+      balance: 0,
+      active: true
     });
 
     await this.ormRepository.save(account);
