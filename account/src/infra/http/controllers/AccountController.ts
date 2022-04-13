@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import DisableAccountService from 'services/DisableAccountService';
 import GetAccountService from 'services/GetAccountService';
 import { container } from 'tsyringe';
 import CreateAccountService from '../../../services/CreateAccountService';
@@ -6,7 +7,6 @@ import CreateAccountService from '../../../services/CreateAccountService';
 export default class AccountController {
   public async get(request: Request, response: Response): Promise<Response> {
     const { cpf } = request;
-    console.log('aqui', cpf);
 
     const getAccount = container.resolve(GetAccountService);
 
@@ -23,6 +23,19 @@ export default class AccountController {
     const account = await createAccount.execute({ cpf });
 
     return response.status(201).json(account);
+  }
+
+  public async disableAccount(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { cpf } = request;
+
+    const disableAccount = container.resolve(DisableAccountService);
+
+    disableAccount.execute(cpf);
+
+    return response.status(204).json({});
   }
 
   public async createKafka(cpf: string): Promise<void> {
