@@ -26,7 +26,7 @@ class AccountsRepository implements IAccountRepository {
 
   public async findByCpf(cpf: string): Promise<Account | undefined> {
     const account = await this.ormRepository.findOne({
-      where: { cpf }
+      where: { cpf, active: true }
     });
 
     return account;

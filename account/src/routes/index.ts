@@ -1,10 +1,13 @@
 import { Router } from 'express';
+import AccountController from 'infra/http/controllers/AccountController';
 import ensureAuthenticated from 'infra/http/middlewares/ensureAuthenticated';
-import accountRouter from '../infra/http/routes/account.routes';
+
+const accountController = new AccountController();
 
 const routes = Router();
 routes.use(ensureAuthenticated);
 
-routes.use('/create', accountRouter);
+routes.get('/', accountController.get);
+routes.post('/create', accountController.create);
 
 export default routes;
