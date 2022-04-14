@@ -1,14 +1,12 @@
 import { Router } from 'express';
-import AccountController from 'infra/http/controllers/AccountController';
+import TransactionsController from 'infra/http/controllers/TransactionsController';
 import ensureAuthenticated from 'infra/http/middlewares/ensureAuthenticated';
 
-const accountController = new AccountController();
+const transactionsController = new TransactionsController();
 
 const routes = Router();
+routes.use(ensureAuthenticated);
 
-routes.get('/', ensureAuthenticated, accountController.get);
-routes.post('/create', ensureAuthenticated, accountController.create);
-routes.patch('/disable', ensureAuthenticated, accountController.disableAccount);
-routes.patch('/block', accountController.blockAccount);
+routes.post('/transactions', transactionsController.create);
 
 export default routes;

@@ -6,8 +6,8 @@ import {
   UpdateDateColumn
 } from 'typeorm';
 
-@Entity('accounts')
-class Account {
+@Entity('transactions')
+class Transactions {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -21,13 +21,16 @@ class Account {
   cpf: string;
 
   @Column()
-  balance: number;
+  current_balance: number;
 
   @Column()
-  active: boolean;
+  final_balance: number;
 
   @Column()
-  block: boolean;
+  type: string;
+
+  @Column()
+  value_transaction: number;
 
   @CreateDateColumn()
   created_at: Date;
@@ -36,4 +39,4 @@ class Account {
   updated_at: Date;
 }
 
-export default Account;
+export default Transactions;

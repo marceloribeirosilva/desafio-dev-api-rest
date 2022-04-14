@@ -7,7 +7,6 @@ import 'dotenv/config';
 import 'express-async-errors';
 import AppError from './errors/AppError';
 import routes from './routes';
-import CreateAccountConsumerService from './services/CreateAccountConsumerService';
 
 const app = express();
 
@@ -27,8 +26,6 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
     .json({ status: 'error', message: 'Internal server error' });
 });
 
-app.listen(3334, () => {
+app.listen(3335, () => {
   console.log('Server started');
 });
-
-CreateAccountConsumerService();
