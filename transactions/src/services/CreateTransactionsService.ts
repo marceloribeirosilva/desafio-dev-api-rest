@@ -2,6 +2,7 @@ import { inject, injectable } from 'tsyringe';
 // import AppError from '../errors/AppError';
 import Transactions from '../infra/typeorm/entities/Transactions';
 import ITransactionsRepository from '../repositories/ITransactionsRepository';
+import CreateTransactionsServiceProducer from './CreateTransactionsServiceProducer';
 
 interface IRequest {
   cpf: string;
@@ -51,6 +52,11 @@ class CreateTransactionsService {
       type_transaction,
       final_balance
     });
+
+    CreateTransactionsServiceProducer.execute(
+      transaction.cpf,
+      transaction.final_balance
+    );
 
     return transaction;
   }

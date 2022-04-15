@@ -24,8 +24,7 @@ export default class CreateTransactions1626546664140
           },
           {
             name: 'cpf',
-            type: 'varchar',
-            isUnique: true
+            type: 'varchar'
           },
           {
             name: 'current_balance',

@@ -1,12 +1,12 @@
 import AccountController from 'infra/http/controllers/AccountController';
 import { Kafka } from 'kafkajs';
 
-async function CreateAccountConsumerService(): Promise<void> {
-  const clientId = 'dock';
+async function CreateTransactionsConsumerService(): Promise<void> {
+  const clientId = 'dock-transactions';
 
   const brokers = ['127.0.0.1:9092'];
 
-  const topic = 'create-account';
+  const topic = 'create-transactions';
 
   const kafka = new Kafka({ clientId, brokers });
 
@@ -18,10 +18,10 @@ async function CreateAccountConsumerService(): Promise<void> {
     eachMessage: async ({ message }) => {
       if (message.value) {
         const controller = new AccountController();
-        controller.createKafka(message.value.toString());
+        controller.updateBalanceKafka(message.value.toString());
       }
     }
   });
 }
 
-export default CreateAccountConsumerService;
+export default CreateTransactionsConsumerService;

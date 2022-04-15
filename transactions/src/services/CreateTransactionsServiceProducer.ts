@@ -1,11 +1,11 @@
 import AppError from 'errors/AppError';
 import { Kafka } from 'kafkajs';
 
-export default class CreateAccountServiceProducer {
-  static async execute(cpf: string): Promise<void> {
+export default class CreateTransactionsServiceProducer {
+  static async execute(cpf: string, final_balance: number): Promise<void> {
     const clientId = 'dock';
     const brokers = ['127.0.0.1:9092'];
-    const topic = 'create-account';
+    const topic = 'create-transactions';
 
     const kafka = new Kafka({ clientId, brokers });
     const producer = kafka.producer();
@@ -17,12 +17,12 @@ export default class CreateAccountServiceProducer {
         messages: [
           {
             key: cpf,
-            value: cpf
+            value: JSON.stringify({ cpf, final_balance })
           }
         ]
       });
     } catch (err) {
-      throw new AppError('Unable to create account');
+      throw new AppError('Unable to registry transactions');
     }
   }
 }

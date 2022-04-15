@@ -5,6 +5,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import 'dotenv/config';
 import 'express-async-errors';
+import CreateTransactionsConsumerService from 'services/CreateTransactionsConsumerService';
 import AppError from './errors/AppError';
 import routes from './routes';
 import CreateAccountConsumerService from './services/CreateAccountConsumerService';
@@ -32,3 +33,4 @@ app.listen(3334, () => {
 });
 
 CreateAccountConsumerService();
+CreateTransactionsConsumerService();

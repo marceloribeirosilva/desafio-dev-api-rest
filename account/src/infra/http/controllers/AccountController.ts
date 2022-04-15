@@ -2,9 +2,14 @@ import { Request, Response } from 'express';
 import BlockAccountService from 'services/BlockAccountService';
 import DisableAccountService from 'services/DisableAccountService';
 import GetAccountService from 'services/GetAccountService';
+import UpdateFinalBalanceService from 'services/UpdateFinalBalanceService';
 import { container } from 'tsyringe';
 import CreateAccountService from '../../../services/CreateAccountService';
 
+interface IUpdateBalanceKafka {
+  cpf: string;
+  final_balance: number;
+}
 export default class AccountController {
   public async get(request: Request, response: Response): Promise<Response> {
     const { cpf } = request;
@@ -56,5 +61,12 @@ export default class AccountController {
     const createAccount = container.resolve(CreateAccountService);
 
     await createAccount.execute({ cpf });
+  }
+
+  public async updateBalanceKafka(message: string): Promise<void> {
+    const kafkaMessage: IUpdateBalanceKafka = JSON.parse(message);
+    const updateFinalBalance = container.resolve(UpdateFinalBalanceService);
+
+    updateFinalBalance.execute(kafkaMessage.cpf, kafkaMessage.final_balance);
   }
 }
