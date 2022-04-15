@@ -1,3 +1,4 @@
+import AppError from 'errors/AppError';
 import { inject, injectable } from 'tsyringe';
 // import AppError from '../errors/AppError';
 import Transactions from '../infra/typeorm/entities/Transactions';
@@ -32,12 +33,29 @@ class CreateTransactionsService {
     value_transaction,
     type_transaction
   }: IRequest): Promise<Transactions> {
+    if (!account_active) throw new AppError('The account is not active');
+
+    if (account_block) throw new AppError('The account is blocked');
+
     let final_balance = current_balance;
+
     if (type_transaction === 'C') {
       final_balance += value_transaction;
     }
 
     if (type_transaction === 'D') {
+      if (value_transaction > final_balance)
+        throw new AppError('Balance unavailable for this transaction');
+
+      const totalDebitTransactionsDay = await this.transactionsRepository.getTotalTransactionsDay(
+        cpf,
+        new Date(),
+        'D'
+      );
+
+      if (totalDebitTransactionsDay + value_transaction > 2000)
+        throw new AppError('Transaction amount exceeds daily limit');
+
       final_balance -= value_transaction;
     }
 

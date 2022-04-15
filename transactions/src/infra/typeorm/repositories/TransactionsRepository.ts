@@ -1,5 +1,6 @@
 import ICreateTransactionsDTO from 'dtos/ICreateTransactionsDTO';
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Repository, Between, Equal } from 'typeorm';
+import { startOfDay, endOfDay } from 'date-fns';
 import ITransactionsRepository from '../../../repositories/ITransactionsRepository';
 import Transactions from '../entities/Transactions';
 
@@ -32,6 +33,34 @@ class TransactionsRepository implements ITransactionsRepository {
     const savedTransactions = await this.ormRepository.save(transaction);
 
     return savedTransactions;
+  }
+
+  public async getTotalTransactionsDay(
+    cpf: string,
+    date: Date,
+    type: string
+  ): Promise<number> {
+    let total = 0;
+    const transactions = await this.ormRepository.find({
+      where: {
+        created_at: Between(
+          startOfDay(date).toISOString(),
+          endOfDay(date).toISOString()
+        ),
+        cpf: Equal(cpf),
+        type: Equal(type)
+      }
+    });
+
+    if (transactions) {
+      for (let index = 0; index < transactions.length; index += 1) {
+        const transaction = transactions[index];
+
+        total += transaction.value_transaction;
+      }
+    }
+
+    return total;
   }
 }
 
