@@ -1,3 +1,14 @@
+# To Do
+[ ] Colocar valores chumbados em um .env
+[ ] Criar serviço Consumer das transações
+[ ] No microsserviço Account, criar os endpoints do depósito e saque (assincrono). Esse endpoint na verdade irá salvar em um tópico no kafka para que o microsserviço Transactions realize a transação.
+[ ] Ajustar testes unitários nos microsserviços Account e Transactions
+[ ] Realizar um teste geral, criando um customer, verificando a conta e realizando transações bancárias
+[ ] Dockeirizar as aplicações
+[ ] Testar os microsserviços dockeirizados
+[ ] Criar um docker-compose subindo todos os 3 serviços mysql, o serviço kafka e as 3 imagens dos microsserviços
+[ ] Criar um diagrama mostrando a arquitetura
+
 # Cenário
 
 A Dock está crescendo e expandindo seus negócios, gerando novas oportunidades de revolucionar o mercado financeiro e criar produtos diferenciados.
