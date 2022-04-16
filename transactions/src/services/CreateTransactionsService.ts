@@ -1,7 +1,4 @@
-import AppError from 'errors/AppError';
 import { inject, injectable } from 'tsyringe';
-// import AppError from '../errors/AppError';
-import Transactions from '../infra/typeorm/entities/Transactions';
 import ITransactionsRepository from '../repositories/ITransactionsRepository';
 import CreateTransactionsServiceProducer from './CreateTransactionsServiceProducer';
 
@@ -32,20 +29,30 @@ class CreateTransactionsService {
     account_block,
     value_transaction,
     type_transaction
-  }: IRequest): Promise<Transactions> {
-    if (!account_active) throw new AppError('The account is not active');
+  }: IRequest): Promise<void> {
+    if (!account_active) {
+      // throw new AppError('The account is not active');
+      // gravar mensagem
+      return;
+    }
 
-    if (account_block) throw new AppError('The account is blocked');
+    if (account_block) {
+      // throw new AppError('The account is blocked');
+      return;
+    }
 
-    let final_balance = current_balance;
+    let final_balance = Number(current_balance);
+    const value = Number(value_transaction);
 
     if (type_transaction === 'C') {
-      final_balance += value_transaction;
+      final_balance += value;
     }
 
     if (type_transaction === 'D') {
-      if (value_transaction > final_balance)
-        throw new AppError('Balance unavailable for this transaction');
+      if (value > final_balance) {
+        // throw new AppError('Balance unavailable for this transaction');
+        return;
+      }
 
       const totalDebitTransactionsDay = await this.transactionsRepository.getTotalTransactionsDay(
         cpf,
@@ -53,10 +60,12 @@ class CreateTransactionsService {
         'D'
       );
 
-      if (totalDebitTransactionsDay + value_transaction > 2000)
-        throw new AppError('Transaction amount exceeds daily limit');
+      if (totalDebitTransactionsDay + value > 2000) {
+        // throw new AppError('Transaction amount exceeds daily limit');
+        return;
+      }
 
-      final_balance -= value_transaction;
+      final_balance -= value;
     }
 
     const transaction = await this.transactionsRepository.create({
@@ -66,7 +75,7 @@ class CreateTransactionsService {
       current_balance,
       account_active,
       account_block,
-      value_transaction,
+      value_transaction: value,
       type_transaction,
       final_balance
     });
@@ -75,8 +84,6 @@ class CreateTransactionsService {
       transaction.cpf,
       transaction.final_balance
     );
-
-    return transaction;
   }
 }
 

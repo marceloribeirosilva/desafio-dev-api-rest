@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import BankTransactionsService from 'services/BankTransactionsService';
 import BlockAccountService from 'services/BlockAccountService';
 import DisableAccountService from 'services/DisableAccountService';
 import GetAccountService from 'services/GetAccountService';
@@ -55,6 +56,34 @@ export default class AccountController {
     blockAccount.execute(cpf);
 
     return response.status(204).json({});
+  }
+
+  public async withdraw(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { cpf } = request;
+    const { value } = request.body;
+
+    const bankTransactionsService = new BankTransactionsService();
+
+    await bankTransactionsService.execute(cpf, value, 'D');
+
+    return response.status(201).json({});
+  }
+
+  public async deposit(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { cpf } = request;
+    const { value } = request.body;
+
+    const bankTransactionsService = new BankTransactionsService();
+
+    await bankTransactionsService.execute(cpf, value, 'C');
+
+    return response.status(201).json({});
   }
 
   public async createKafka(cpf: string): Promise<void> {

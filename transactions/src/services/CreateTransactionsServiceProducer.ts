@@ -3,9 +3,9 @@ import { Kafka } from 'kafkajs';
 
 export default class CreateTransactionsServiceProducer {
   static async execute(cpf: string, final_balance: number): Promise<void> {
-    const clientId = 'dock';
+    const clientId = 'dock-transactions-update-account';
     const brokers = ['127.0.0.1:9092'];
-    const topic = 'create-transactions';
+    const topic = 'update-balance-account';
 
     const kafka = new Kafka({ clientId, brokers });
     const producer = kafka.producer();

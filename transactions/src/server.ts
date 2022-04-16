@@ -5,6 +5,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import 'dotenv/config';
 import 'express-async-errors';
+import CreateTransactionsConsumerService from 'services/CreateTransactionsConsumerService';
 import AppError from './errors/AppError';
 import routes from './routes';
 
@@ -29,3 +30,5 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
 app.listen(3335, () => {
   console.log('Server started');
 });
+
+CreateTransactionsConsumerService();

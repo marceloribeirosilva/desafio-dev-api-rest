@@ -2,6 +2,17 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import CreateTransactionsService from '../../../services/CreateTransactionsService';
 
+interface ICreateTransactionMessageKafka {
+  cpf: string;
+  account_number: string;
+  agency: string;
+  current_balance: number;
+  account_active: boolean;
+  account_block: boolean;
+  value_transaction: number;
+  type_transaction: string;
+}
+
 export default class TransactionsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { cpf } = request;
@@ -17,7 +28,7 @@ export default class TransactionsController {
 
     const createTransactions = container.resolve(CreateTransactionsService);
 
-    const transaction = await createTransactions.execute({
+    await createTransactions.execute({
       cpf,
       account_number,
       agency,
@@ -28,6 +39,16 @@ export default class TransactionsController {
       type_transaction
     });
 
-    return response.status(201).json(transaction);
+    return response.status(201).json({});
+  }
+
+  public async createKafka(message: string): Promise<void> {
+    const messageCreateTransactions: ICreateTransactionMessageKafka = JSON.parse(
+      message
+    );
+
+    const createTransactions = container.resolve(CreateTransactionsService);
+
+    await createTransactions.execute({ ...messageCreateTransactions });
   }
 }
