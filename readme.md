@@ -1,14 +1,7 @@
 # To Do
 [ ] Colocar valores chumbados em um .env
 
-[ ] Criar serviço Consumer das transações
-
-[ ] No microsserviço Account, criar os endpoints do depósito e saque (assincrono). Esse endpoint na verdade irá salvar em um tópico no kafka para que o 
-microsserviço Transactions realize a transação.
-
 [ ] Ajustar testes unitários nos microsserviços Account e Transactions
-
-[ ] Realizar um teste geral, criando um customer, verificando a conta e realizando transações bancárias
 
 [ ] Dockeirizar as aplicações
 
