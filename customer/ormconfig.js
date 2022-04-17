@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any  */
-import { createConnection } from 'typeorm';
-
-const config: any = {
+module.exports = {
   type: 'mysql',
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -16,5 +13,3 @@ const config: any = {
     migrationsDir: './src/infra/typeorm/migrations'
   }
 };
-
-createConnection(config);

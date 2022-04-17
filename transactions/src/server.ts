@@ -1,9 +1,9 @@
+import 'dotenv/config';
 import 'reflect-metadata';
 import './infra/typeorm';
 import './container';
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import 'dotenv/config';
 import 'express-async-errors';
 import CreateTransactionsConsumerService from 'services/CreateTransactionsConsumerService';
 import AppError from './errors/AppError';
