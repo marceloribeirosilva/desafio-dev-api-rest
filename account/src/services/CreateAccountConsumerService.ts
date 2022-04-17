@@ -2,11 +2,11 @@ import AccountController from 'infra/http/controllers/AccountController';
 import { Kafka } from 'kafkajs';
 
 async function CreateAccountConsumerService(): Promise<void> {
-  const clientId = 'dock';
+  const clientId = process.env.CLIENT_ID_CREATE_ACCOUNT_KAFKA || '';
 
-  const brokers = ['127.0.0.1:9092'];
+  const brokers = [process.env.BROKERS_KAFKA || ''];
 
-  const topic = 'create-account';
+  const topic = process.env.TOPIC_CREATE_ACCOUNT_KAFKA || '';
 
   const kafka = new Kafka({ clientId, brokers });
 

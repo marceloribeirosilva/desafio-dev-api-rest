@@ -2,11 +2,11 @@ import AccountController from 'infra/http/controllers/AccountController';
 import { Kafka } from 'kafkajs';
 
 async function CreateTransactionsConsumerService(): Promise<void> {
-  const clientId = 'dock-update-account';
+  const clientId = process.env.CLIENT_ID_UPDATE_ACCOUNT_KAFKA || '';
 
-  const brokers = ['127.0.0.1:9092'];
+  const brokers = [process.env.BROKERS_KAFKA || ''];
 
-  const topic = 'update-balance-account';
+  const topic = process.env.TOPIC_UPDATE_ACCOUNT_KAFKA || '';
 
   const kafka = new Kafka({ clientId, brokers });
 

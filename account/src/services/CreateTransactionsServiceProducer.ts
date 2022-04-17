@@ -19,9 +19,9 @@ export default class CreateTransactionsServiceProducer {
     value_transaction,
     type_transaction
   }: ICreateTransactionMessageKafka): Promise<void> {
-    const clientId = 'dock-transactions';
-    const brokers = ['127.0.0.1:9092'];
-    const topic = 'create-transactions';
+    const clientId = process.env.CLIENT_ID_CREATE_TRANSACTIONS_KAFKA || '';
+    const brokers = [process.env.BROKERS_KAFKA || ''];
+    const topic = process.env.TOPIC_CREATE_TRANSACTIONS_KAFKA || '';
 
     const kafka = new Kafka({ clientId, brokers });
     const producer = kafka.producer();
