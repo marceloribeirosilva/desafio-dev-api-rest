@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
+import GetStatementService from 'services/GetStatementService';
 import { container } from 'tsyringe';
+import { parseISO } from 'date-fns';
 import CreateTransactionsService from '../../../services/CreateTransactionsService';
 
 interface ICreateTransactionMessageKafka {
@@ -14,32 +16,27 @@ interface ICreateTransactionMessageKafka {
 }
 
 export default class TransactionsController {
-  public async create(request: Request, response: Response): Promise<Response> {
+  public async get(request: Request, response: Response): Promise<Response> {
     const { cpf } = request;
-    const {
-      account_number,
-      agency,
-      current_balance,
-      account_active,
-      account_block,
-      value_transaction,
-      type_transaction
-    } = request.body;
+    const { initial_date, final_date } = request.query;
+    let initialDate = new Date();
+    let finalDate = new Date();
+    if (initial_date) {
+      initialDate = parseISO(initial_date.toString());
+    }
+    if (final_date) {
+      finalDate = parseISO(final_date.toString());
+    }
 
-    const createTransactions = container.resolve(CreateTransactionsService);
+    const getStatement = container.resolve(GetStatementService);
 
-    await createTransactions.execute({
+    const transactions = await getStatement.execute(
       cpf,
-      account_number,
-      agency,
-      current_balance,
-      account_active,
-      account_block,
-      value_transaction,
-      type_transaction
-    });
+      initialDate,
+      finalDate
+    );
 
-    return response.status(201).json({});
+    return response.status(200).json(transactions);
   }
 
   public async createKafka(message: string): Promise<void> {

@@ -56,11 +56,30 @@ class TransactionsRepository implements ITransactionsRepository {
       for (let index = 0; index < transactions.length; index += 1) {
         const transaction = transactions[index];
 
-        total += transaction.value_transaction;
+        total += Number(transaction.value_transaction);
       }
     }
 
     return total;
+  }
+
+  public async getStatement(
+    cpf: string,
+    initial_date: Date,
+    final_date: Date
+  ): Promise<Transactions[] | undefined> {
+    return this.ormRepository.find({
+      where: {
+        created_at: Between(
+          startOfDay(initial_date).toISOString(),
+          endOfDay(final_date).toISOString()
+        ),
+        cpf: Equal(cpf)
+      },
+      order: {
+        id: 'DESC'
+      }
+    });
   }
 }
 

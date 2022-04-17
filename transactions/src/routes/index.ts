@@ -7,6 +7,6 @@ const transactionsController = new TransactionsController();
 const routes = Router();
 routes.use(ensureAuthenticated);
 
-routes.post('/transactions', transactionsController.create);
+routes.get('/statement', transactionsController.get);
 
 export default routes;

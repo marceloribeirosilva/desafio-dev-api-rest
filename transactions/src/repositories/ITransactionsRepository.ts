@@ -9,4 +9,9 @@ export default interface ITransactionsRepository {
     date: Date,
     type: string
   ): Promise<number>;
+  getStatement(
+    cpf: string,
+    initial_date: Date,
+    final_date: Date
+  ): Promise<Transactions[] | undefined>;
 }
