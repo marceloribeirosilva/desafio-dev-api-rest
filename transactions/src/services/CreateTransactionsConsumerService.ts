@@ -2,11 +2,11 @@ import TransactionsController from 'infra/http/controllers/TransactionsControlle
 import { Kafka } from 'kafkajs';
 
 async function CreateTransactionsConsumerService(): Promise<void> {
-  const clientId = 'dock-transactions';
+  const clientId = process.env.CLIENT_ID_CREATE_TRANSACTIONS_KAFKA || '';
 
-  const brokers = ['127.0.0.1:9092'];
+  const brokers = [process.env.BROKERS_KAFKA || ''];
 
-  const topic = 'create-transactions';
+  const topic = process.env.TOPIC_CREATE_TRANSACTIONS_KAFKA || '';
 
   const kafka = new Kafka({ clientId, brokers });
 
