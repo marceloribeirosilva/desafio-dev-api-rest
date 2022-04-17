@@ -20,7 +20,9 @@ export default class CreateTransactionsServiceProducer {
     type_transaction
   }: ICreateTransactionMessageKafka): Promise<void> {
     const clientId = process.env.CLIENT_ID_CREATE_TRANSACTIONS_KAFKA || '';
-    const brokers = [process.env.BROKERS_KAFKA || ''];
+    const brokers = [
+      `${process.env.KAFKA_HOST}:${process.env.KAFKA_PORT}` || ''
+    ];
     const topic = process.env.TOPIC_CREATE_TRANSACTIONS_KAFKA || '';
 
     const kafka = new Kafka({ clientId, brokers });

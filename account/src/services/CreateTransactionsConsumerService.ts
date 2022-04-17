@@ -4,7 +4,7 @@ import { Kafka } from 'kafkajs';
 async function CreateTransactionsConsumerService(): Promise<void> {
   const clientId = process.env.CLIENT_ID_UPDATE_ACCOUNT_KAFKA || '';
 
-  const brokers = [process.env.BROKERS_KAFKA || ''];
+  const brokers = [`${process.env.KAFKA_HOST}:${process.env.KAFKA_PORT}` || ''];
 
   const topic = process.env.TOPIC_UPDATE_ACCOUNT_KAFKA || '';
 
