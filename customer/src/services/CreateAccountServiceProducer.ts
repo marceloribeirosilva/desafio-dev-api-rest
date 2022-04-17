@@ -3,9 +3,9 @@ import { Kafka } from 'kafkajs';
 
 export default class CreateAccountServiceProducer {
   static async execute(cpf: string): Promise<void> {
-    const clientId = 'dock';
-    const brokers = ['127.0.0.1:9092'];
-    const topic = 'create-account';
+    const clientId = process.env.CLIENT_ID_CREATE_ACCOUNT_KAFKA || '';
+    const brokers = [process.env.BROKERS_KAFKA || ''];
+    const topic = process.env.TOPIC_CREATE_ACCOUNT_KAFKA || '';
 
     const kafka = new Kafka({ clientId, brokers });
     const producer = kafka.producer();
