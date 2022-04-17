@@ -4,7 +4,9 @@ import { Kafka } from 'kafkajs';
 export default class CreateTransactionsServiceProducer {
   static async execute(cpf: string, final_balance: number): Promise<void> {
     const clientId = process.env.CLIENT_ID_UPDATE_ACCOUNT_KAFKA || '';
-    const brokers = [process.env.BROKERS_KAFKA || ''];
+    const brokers = [
+      `${process.env.KAFKA_HOST}:${process.env.KAFKA_PORT}` || ''
+    ];
     const topic = process.env.TOPIC_UPDATE_ACCOUNT_KAFKA || '';
 
     const kafka = new Kafka({ clientId, brokers });
