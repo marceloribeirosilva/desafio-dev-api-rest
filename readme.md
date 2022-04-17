@@ -1,8 +1,4 @@
 # To Do
-[ ] Colocar valores chumbados em um .env
-
-[ ] Ajustar testes unitários nos microsserviços Account e Transactions
-
 [ ] Dockeirizar as aplicações
 
 [ ] Testar os microsserviços dockeirizados
