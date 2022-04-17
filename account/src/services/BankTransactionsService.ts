@@ -13,9 +13,18 @@ export default class BankTransactionsService {
     const account = await getAccount.execute(cpf);
 
     if (account) {
+      if (!account.active) {
+        // throw new AppError('The account is not active');
+        // gravar mensagem
+        return;
+      }
+
+      if (account.block) {
+        // throw new AppError('The account is blocked');
+        return;
+      }
+
       CreateTransactionsServiceProducer.execute({
-        account_active: account.active,
-        account_block: account.block,
         account_number: account.account,
         agency: account.agency,
         cpf,

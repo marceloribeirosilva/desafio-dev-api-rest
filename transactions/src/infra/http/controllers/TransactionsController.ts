@@ -9,8 +9,6 @@ interface ICreateTransactionMessageKafka {
   account_number: string;
   agency: string;
   current_balance: number;
-  account_active: boolean;
-  account_block: boolean;
   value_transaction: number;
   type_transaction: string;
 }

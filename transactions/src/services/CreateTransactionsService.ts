@@ -7,8 +7,6 @@ interface IRequest {
   account_number: string;
   agency: string;
   current_balance: number;
-  account_active: boolean;
-  account_block: boolean;
   value_transaction: number;
   type_transaction: string;
 }
@@ -25,22 +23,9 @@ class CreateTransactionsService {
     account_number,
     agency,
     current_balance,
-    account_active,
-    account_block,
     value_transaction,
     type_transaction
   }: IRequest): Promise<void> {
-    if (!account_active) {
-      // throw new AppError('The account is not active');
-      // gravar mensagem
-      return;
-    }
-
-    if (account_block) {
-      // throw new AppError('The account is blocked');
-      return;
-    }
-
     let final_balance = Number(current_balance);
     const value = Number(value_transaction);
 
@@ -50,7 +35,6 @@ class CreateTransactionsService {
 
     if (type_transaction === 'D') {
       if (value > final_balance) {
-        // throw new AppError('Balance unavailable for this transaction');
         return;
       }
 
@@ -61,7 +45,6 @@ class CreateTransactionsService {
       );
 
       if (totalDebitTransactionsDay + value > 2000) {
-        // throw new AppError('Transaction amount exceeds daily limit');
         return;
       }
 
@@ -73,8 +56,6 @@ class CreateTransactionsService {
       account: account_number,
       agency,
       current_balance,
-      account_active,
-      account_block,
       value_transaction: value,
       type_transaction,
       final_balance

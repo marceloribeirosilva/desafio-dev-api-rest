@@ -6,8 +6,6 @@ interface ICreateTransactionMessageKafka {
   account_number: string;
   agency: string;
   current_balance: number;
-  account_active: boolean;
-  account_block: boolean;
   value_transaction: number;
   type_transaction: string;
 }
@@ -18,8 +16,6 @@ export default class CreateTransactionsServiceProducer {
     account_number,
     agency,
     current_balance,
-    account_active,
-    account_block,
     value_transaction,
     type_transaction
   }: ICreateTransactionMessageKafka): Promise<void> {
@@ -42,8 +38,6 @@ export default class CreateTransactionsServiceProducer {
               account_number,
               agency,
               current_balance,
-              account_active,
-              account_block,
               value_transaction,
               type_transaction
             })
