@@ -100,6 +100,20 @@ Foi também realizado um **push** ao **docker hub** para que as imagens pudessem
 
 ![alt text](https://github.com/marceloribeirosilva/desafio-dev-api-rest/blob/master/images/docker-compose-ps.png?raw=true)
 
+## Pontos de melhoria
+
+As imagens criadas dos microsserviços não foi uma imagem propícia para produção. Ou seja, não foi feito o build e consequentemente não estão no tamanho menor.
+
+No Dockerfile, é interessante realizar essa melhoria para que ao invés de subir todos os arquivos do projeto, subir no container somente os arquivos da pasta dist e o restante necessário.
+
+# Serviço KOWL
+
+Para que possamos acompanhar as trocas de mensagens pelo Kafka, subi juntamente no docker-compose o servço KOWL no qual ele nos mostra todas as trocas de mensagens que estão sendo realizadas em tempo real.
+
+![alt text](https://github.com/marceloribeirosilva/desafio-dev-api-rest/blob/master/images/Kowl1.png?raw=true)
+
+![alt text](https://github.com/marceloribeirosilva/desafio-dev-api-rest/blob/master/images/Kowl2.png?raw=true)
+
 # Cenário
 
 A Dock está crescendo e expandindo seus negócios, gerando novas oportunidades de revolucionar o mercado financeiro e criar produtos diferenciados.
