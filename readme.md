@@ -114,6 +114,33 @@ Para que possamos acompanhar as trocas de mensagens pelo Kafka, subi juntamente 
 
 ![alt text](https://github.com/marceloribeirosilva/desafio-dev-api-rest/blob/master/images/Kowl2.png?raw=true)
 
+# Colection Postman
+
+`https://www.getpostman.com/collections/3721f11b83ca3b003b82`
+
+# Rodar o projeto
+
+Uma vez estando posicionado na raiz do projeto, contendo os arquivos **docker-compose.yaml** e **kowl_config.yaml**, basta pelo terminal digitar:
+
+`docker-compose up`
+
+### Pontos de melhoria
+
+Embora no arquivo yaml eu tenha colocado a dependência dos microsserviços com o banco e com o serviço do kafka, percebi que de vez em quando, quando rodo o comando `docker-compose up` e já saiu executando as rotas, ainda não deu tempo do serviço kafka ficar no ar e aí acaba dando uma exception no serviço de Account ou Transaction.
+
+Sugiro duas melhorias:
+
+1) Antes de salvar ou se inscrever no tópico, ver se o serviço está no ar
+2) Tratar o erro para que não estoure uma exception e com isso o server caia.
+
+# Testes
+
+Acabei priorizando a montagem do projeto em si, com o funcionamento em microsserviços e mensageria e acabei despriorizando os testes, embora eu tenha consciência da importância dos mesmos.
+
+**Acabei criando testes unitários somente no microsserviço Customer.**
+
+Como melhoria, sugiro aumentar a cobertura de testes unitários entre os microsserviços e a criação de testes de integração.
+
 # Cenário
 
 A Dock está crescendo e expandindo seus negócios, gerando novas oportunidades de revolucionar o mercado financeiro e criar produtos diferenciados.
