@@ -1,13 +1,41 @@
-# To Do
-[ ] Dockeirizar as aplicações
+# Arquitetura
 
-[ ] Testar os microsserviços dockeirizados
+A arquitetura escolhida foi a **arquitetura de microsserviços** por entender que assim é possível realizarmos escalabilidade granular nos serviços que estão sendo mais requisitados.
 
-[ ] Criar um docker-compose subindo todos os 3 serviços mysql, o serviço kafka e as 3 imagens dos microsserviços
+A comunicação escolhida entre os microsserviços foi a **comunicação assíncrona** e a ferramenta de mensageria que foi utilizada no projeto foi **Kafka**.
 
-[ ] Criar um diagrama mostrando a arquitetura
+# Limites de Contexto (Context Boundaries)
 
-[ ] Atualizar o Readme
+![alt text](https://github.com/marceloribeirosilva/desafio-dev-api-rest/blob/master/images/Context%20Boundaries.png?raw=true)
+
+# Diagrama da Arquitetura
+
+![alt text](https://github.com/marceloribeirosilva/desafio-dev-api-rest/blob/master/images/Diagrama.png?raw=true)
+
+# Descrição de funcionamento dos Microsserviços (Regras de negócio)
+
+## Customer
+
+### Criação de um cliente (Portador)
+
+A api recebe de forma síncrona a solicitação, aonde recebe no body o nome, cpf, e-mail e senha.
+
+É feito duas validações, sendo elas:
+
+1) Validação de CPF
+2) CPF único na base de cadastro
+
+Uma vez que a solicitação passa por essas duas requisições, a API envia uma mensagem ao Kafka solicitando a abertura da conta que é realizada por outro microsserviço.
+
+**Obs.:** Pensando na segurança dos dados do cliente, é utilizado um hash para salvar a senha do cliente no banco de dados.
+
+### Autenticação de um cliente (Portador)
+
+A api recebe de forma síncrona a solicitação, aonde recebe no body e-mail e senha
+
+Uma vez que o cliente é autorizado a utlizar os serviços do banco, ele recebe um **Token JWT**.
+
+Nesse token, salvamos o CPF do cliente para que a comunicação com os outros microsserviços possa se dar via token, sem a necessidade de explicitar essa informação.
 
 # Cenário
 
