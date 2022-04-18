@@ -37,6 +37,69 @@ Uma vez que o cliente é autorizado a utlizar os serviços do banco, ele recebe 
 
 Nesse token, salvamos o CPF do cliente para que a comunicação com os outros microsserviços possa se dar via token, sem a necessidade de explicitar essa informação.
 
+## Account
+
+Esse microsserviço atua como uma **API** recebendo requisições síncronas do usuário e também como um **Consumer** no qual ele se inscreve nos tópicos referentes ao kafka para criar a conta do cliente quando necessário e também atualizar o saldo da conta quando houver uma transição.
+
+Enquanto Consumer, ele fica esperando mensagens do tópico que solicita uma criação de conta e também mensagens do tópico que solicita a atualização do saldo corrente.
+
+Enquanto API, ele pode receber as seguintes requisições:
+
+### Buscar conta
+
+Através do token JWT, conseguimos recuperar o CPF do cliente e com isso a API realiza uma busca em seu banco de dados, trazendo as informações da conta, como Número, Agência, Saldo bancário.
+
+**A conta precisa estar ativa para ser recuperada**
+
+### Desabilitar conta
+
+O próprio usuário pode a qualquer momento desabilitar a sua conta. É necessário JWT
+
+### Bloquear conta
+
+Nesse caso, é um endpoint que será utilizado apenas internamente pelos funcionários Dock, aonde poderão bloquear ou desbloquear a conta a qualquer momento.
+
+**Ponto de melhoria**
+
+Seria interessante criar uma segurança a parte para esse endpoint. De repente um JWT diferente que indicaria que é um funcionario autorizado a realizar essa ação.
+
+### Realizar Depósito
+
+O microsserviço em si não realiza o depósito. Essa responsabilidade ficou para o microsserviço Transactions. As únicas regras de negócio que temos nesse momento é verificar se a conta está **ativa e desbloqueada**.
+
+Nesse momento o microsserviço atua como um **Producer**.
+
+### Realizar Saque
+
+O microsserviço em si não realiza o saque. Essa responsabilidade ficou para o microsserviço Transactions. As únicas regras de negócio que temos nesse momento é verificar se a conta está **ativa e desbloqueada**.
+
+Nesse momento o microsserviço atua como um **Producer**.
+
+## Transactions
+
+Esse microsserviço atua como uma **API** recebendo requisições síncronas do usuário e também como um **Consumer** no qual ele se inscreve nos tópicos referentes ao kafka para realizar uma transação. Ao final da transação ele atua como um **Producer** para que a conta do cliente tenha o seu saldo atualizado.
+
+No momento de realizar a transação, ele possui as seguintes regras de negócio:
+
+1) Verifica se possui saldo suficiente para a transação (Débito)
+2) Verifica se o total de transações do dia + o valor da transação atual é maior que 2.000 (Débito)
+
+Enquanto API, ele pode receber as seguintes requisições:
+
+### Extrato Bancário
+
+O microsserviço busca no seu banco todas as transações de um determinado período que é definido via **params** da requisição.
+
+# Docker e Docker-Compose
+
+Os microsserviços foram todos dockeirizados a fim de facilitar, em um futuro pipeline o CI e CD.
+
+Foi também realizado um **push** ao **docker hub** para que as imagens pudessem ser usadas no docker-compose.
+
+## Serviços que sobem automaticamente no docker-compose
+
+![alt text](https://github.com/marceloribeirosilva/desafio-dev-api-rest/blob/master/images/docker-compose-ps.png?raw=true)
+
 # Cenário
 
 A Dock está crescendo e expandindo seus negócios, gerando novas oportunidades de revolucionar o mercado financeiro e criar produtos diferenciados.
